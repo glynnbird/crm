@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+  <!-- Local styles -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  <title>CRM</title>
+</head>
+
+<body>
+  <div id="app">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">CRM</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              Dropdown
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">Disabled</a>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0" v-on:submit="searchSubmit">
+          <input v-model="searchTerm" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </div>
+    </nav>
+    
+    <!-- welcome mode -->
+    <div class="container-fluid" v-if="mode == 'welcome'">
+      <div class="jumbotron">
+        <h1 class="display-4">Welcome to CRM!</h1>
+        <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+        <hr class="my-4">
+        <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+       </div>
+    </div>
+
+    <!-- searching mode -->
+    <div class="container-fluid" v-if="mode == 'searching'">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm"></div>
+          <div class="col-sm"><img class="center align-middle" src="assets/img/spinner.gif"></div>
+          <div class="col-sm"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- search results mode -->
+    <div class="container-fluid" v-if="mode == 'searchResults'">
+      <h2>Search Results</h2>
+      <!--<a v-for="s in processedSearchResults"    v-on:click="chooseCompany($event, s._partition)" href="#" class="list-group-item list-group-item-action" >{{ s._partition }} - {{ s.name }}</a>
+      --->
+      <company-list-item v-for="s in processedSearchResults" :key="s._id" v-bind:partition="s._partition" v-bind:name="s.name"></company-list-item>
+    </div>
+
+
+
+    <!-- single company mode -->
+    <div class="container-fluid" v-if="mode == 'company'">
+      <div class="row">
+        <div class="col">
+          <table class="table" v-if="company"> 
+            <tr><th>id</th><td>{{ companyPartition }}</td></tr>
+            <tr><th>Name</th><td>{{ company.name }} </td></tr>
+            <tr><th>Address</th><td>{{ companyAddress}}</td></th></tr>
+          </table>
+          <div v-if="company">
+            {{ company.description }}
+          </div>
+        </div>
+        <div class="col-9">
+          <!-- toolbar with options for adding notes, contacts or links -->
+          <div class="btn-group add-toolbar" role="group" aria-label="Add object toolbar">
+            <button v-on:click="currentForm='add-note-form'" type="button" class="btn btn-secondary"><i class="fas fa-sticky-note"></i></button>
+            <button v-on:click="currentForm='add-link-form'" type="button" class="btn btn-secondary"><i class="fas fa-link"></i></button>
+            <button v-on:click="currentForm='add-contact-form'" type="button" class="btn btn-secondary"><i class="fas fa-user-circle"></i></button>
+          </div>
+          <!-- this is where the current add* form goes -->
+          <component v-bind:is="currentTabComponent" class="tab"></component>
+
+          <!-- a list of pre-existing companyHistory objects -->
+          <company-history v-for="ch in companyHistory" v-bind:item="ch" :key="ch._id"></company-history>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.0/dist/showdown.min.js"></script>
+  <script src="assets/js/crm.js"></script>
+</body>
+
+</html>

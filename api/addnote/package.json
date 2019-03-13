@@ -1,0 +1,7 @@
+{
+  "name": "addnote",
+  "main": "addnote.js",
+  "dependencies": {
+    "kuuid": "^0.4.0"
+  }
+}

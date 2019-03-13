@@ -1,0 +1,15 @@
+{
+  "_id": "{{autoinc}}:0",
+  "type": "company",
+  "ts": "{{date_iso}}",
+  "name": "{{company}}",
+  "address": {
+    "street": "{{street}}",
+    "town": "{{town}}",
+    "state": "{{state}}",
+    "country": "{{country}}",
+    "zip": "{{zip}}"
+  },
+  "description": "{{words 20}}",
+  "url": "{{url}}"
+}

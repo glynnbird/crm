@@ -1,0 +1,13 @@
+{"_id": "{{autoinc}}:{{kuuidr}}","type": "contact","ts": "{{date_iso}}","name":"{{name}}","email":"{{email}}"}
+{"_id": "{{last autoinc}}:{{kuuidr}}","type": "contact","ts": "{{date_iso}}","name":"{{name}}","email":"{{email}}"}
+{"_id": "{{last autoinc}}:{{kuuidr}}","type": "contact","ts": "{{date_iso}}","name":"{{name}}","email":"{{email}}"}
+{"_id": "{{last autoinc}}:{{kuuidr}}","type": "note","ts": "{{date_iso}}","title": "{{words 5}}","description":"{{words 50}}"}
+{"_id": "{{last autoinc}}:{{kuuidr}}","type": "note","ts": "{{date_iso}}","title": "{{words 5}}","description":"{{words 50}}"}
+{"_id": "{{last autoinc}}:{{kuuidr}}","type": "note","ts": "{{date_iso}}","title": "{{words 5}}","description":"{{words 50}}"}
+{"_id": "{{last autoinc}}:{{kuuidr}}","type": "note","ts": "{{date_iso}}","title": "{{words 5}}","description":"{{words 50}}"}
+{"_id": "{{last autoinc}}:{{kuuidr}}","type": "note","ts": "{{date_iso}}","title": "{{words 5}}","description":"{{words 50}}"}
+{"_id": "{{last autoinc}}:{{kuuidr}}","type": "note","ts": "{{date_iso}}","title": "{{words 5}}","description":"{{words 50}}"}
+{"_id": "{{last autoinc}}:{{kuuidr}}","type": "note","ts": "{{date_iso}}","title": "{{words 5}}","description":"{{words 50}}"}
+{"_id": "{{last autoinc}}:{{kuuidr}}","type": "note","ts": "{{date_iso}}","title": "{{words 5}}","description":"{{words 50}}"}
+{"_id": "{{last autoinc}}:{{kuuidr}}","type": "note","ts": "{{date_iso}}","title": "{{words 5}}","description":"{{words 50}}"}
+{"_id": "{{last autoinc}}:{{kuuidr}}","type": "link","ts": "{{date_iso}}","title": "{{words 5}}","url":"{{url}}"}

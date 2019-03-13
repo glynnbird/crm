@@ -1,0 +1,39 @@
+.note-title {
+  font-weight: bold;
+  font-size: 14px
+}
+
+.note-description {
+  font-size: 10px
+}
+
+.contact-name {
+  font-weight: bold;
+  font-size: 14px
+}
+
+.link-card, .note-card, .contact-card {
+  margin-top: 10px
+}
+
+.contact-card {
+  background: #ccffcc;
+}
+
+.link-card {
+  background: #ccccff;
+}
+.note-card {  
+  background: #ffff88; 
+  background: -moz-linear-gradient(-45deg, #ffff88 81%, #ffff88 82%, #ffff88 82%, #ffffc6 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right bottom, color-stop(81%,#ffff88), color-stop(82%,#ffff88), color-stop(82%,#ffff88), color-stop(100%,#ffffc6)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(-45deg, #ffff88 81%,#ffff88 82%,#ffff88 82%,#ffffc6 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(-45deg, #ffff88 81%,#ffff88 82%,#ffff88 82%,#ffffc6 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(-45deg, #ffff88 81%,#ffff88 82%,#ffff88 82%,#ffffc6 100%); /* IE10+ */
+  background: linear-gradient(135deg, #ffff88 81%,#ffff88 82%,#ffff88 82%,#ffffc6 100%); /* W3C */
+}
+
+.add-toolbar {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

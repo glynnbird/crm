@@ -1,0 +1,7 @@
+{
+  "name": "addcontact",
+  "main": "addcontact.js",
+  "dependencies": {
+    "kuuid": "^0.4.0"
+  }
+}
