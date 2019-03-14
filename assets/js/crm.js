@@ -74,6 +74,19 @@ const CRMAPIaddlink= async (partition, title, url) => {
   return obj
 }
 
+const CRMAPIaddcompany= async (company) => {
+  const data = await fetch(APIURL + '/addcompany', 
+                           { 
+                             method: 'POST', 
+                             body: JSON.stringify(company),
+                             headers: {
+                              'Content-type': 'application/json'
+                             }
+                           })
+  const obj = await data.json()
+  return obj
+}
+
 
 // a single company in the search results
 Vue.component('company-list-item', {
@@ -198,7 +211,8 @@ Vue.component('add-note-form', {
                   </div>
                   <div class="form-group">
                     <label for="add-note-description">Description</label>
-                    <textarea v-model="description" class="form-control" id="add-note-description" placeholder="Enter note description"></textarea>
+                    <textarea v-model="description" class="form-control" id="add-note-description" placeholder="Enter note description" rows="10"></textarea>
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                   </div>
                   <button type="submit" class="btn btn-primary" v-bind:disabled="disabled">Submit</button>
                   <button v-on:click="cancel" type="button" class="btn btn-secondary" v-bind:disabled="disabled">Cancel</button>
@@ -305,6 +319,75 @@ Vue.component('add-link-form', {
                   <div class="form-group">
                     <label for="add-link-url">URL</label>
                     <input v-model="url" type="url" class="form-control" id="add-link-url" placeholder="Enter link URL">
+                  </div>
+                  <button type="submit" class="btn btn-primary" v-bind:disabled="disabled">Submit</button>
+                  <button v-on:click="cancel" type="button" class="btn btn-secondary" v-bind:disabled="disabled">Cancel</button>
+              </form>
+             </div>
+            `
+})
+
+// an add company form
+Vue.component('add-company-form', {
+  data: function() {
+    return {
+      name: '',
+      address: {
+        street: '',
+        town: '',
+        state: '',
+        zip: ''
+      },
+      description: '',
+      disabled: false
+    }
+  },
+  mounted: function () {
+    this.$nextTick(function () {
+      document.getElementById('add-company-form-name').focus()
+    })
+  },
+  methods: {
+    submit: async function(event) {
+      event.preventDefault();
+      this.disabled = true
+      const obj = {
+        type: 'company',
+        name: this.name,
+        address: this.address,
+        description: this.description,
+        ts: new Date().toISOString()
+      }
+      console.log(obj)
+      const response = await CRMAPIaddcompany(obj)
+      app.chooseCompany(new Event('dummy'), response.partition)
+      app.currentForm = ''
+    },
+    cancel: function(event) {
+      event.preventDefault();
+      app.currentForm = ''
+    }
+  },
+  template: `<div class="alert alert-secondary" role="alert">
+              <form v-on:submit="submit">
+                  <div class="form-group">
+                    <label for="add-company-name">Name</label>
+                    <input v-model="name" type="text" class="form-control" id="add-company-form-name" placeholder="Enter company name">
+                  </div>
+                  <div class="form-group">
+                    <h3>Address</h3>
+                    <label for="add-company-street">Street</label>
+                    <input v-model="address.street" type="text" class="form-control" id="add-company-street" placeholder="Street name">
+                    <label for="add-company-town">Town</label>
+                    <input v-model="address.town" type="text" class="form-control" id="add-company-town" placeholder="Town name">
+                    <label for="add-company-state">State</label>
+                    <input v-model="address.state" type="text" class="form-control" id="add-company-state" placeholder="State name">
+                    <label for="add-company-zip">Zip</label>
+                    <input v-model="address.zip" type="text" class="form-control" id="add-company-zip" placeholder="Zip code">         
+                  </div>
+                  <div class="form-group">
+                    <label for="add-company-description">Description</label>
+                    <input v-model="description" type="text" class="form-control" id="add-company-description" placeholder="Enter company description">
                   </div>
                   <button type="submit" class="btn btn-primary" v-bind:disabled="disabled">Submit</button>
                   <button v-on:click="cancel" type="button" class="btn btn-secondary" v-bind:disabled="disabled">Cancel</button>
