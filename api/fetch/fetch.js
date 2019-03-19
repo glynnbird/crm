@@ -5,6 +5,10 @@ let cloudant = null
 // main
 async function main(args) {
 
+  if (!args.partition) {
+    throw new Error('missing argument: partition')
+  }
+
   // Cloudant connection
   if (!cloudant) {
     const url = args.COUCH_URL

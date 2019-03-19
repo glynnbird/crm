@@ -1,5 +1,4 @@
 const Cloudant = require('@cloudant/cloudant')
-const kuuid = require('kuuid')
 const HEADERS = { 'Content-Type': 'application/json'}
 let cloudant = null
 
@@ -16,19 +15,22 @@ async function main(args) {
     cloudant = Cloudant({url: url})
   }
   
-  // database object
-  const db = cloudant.db.use('crm')
-  const obj = {
-    _id: args.partition + ':' + kuuid.idr(),
-    type: 'link',
-    title: args.title,
-    url: args.url,
-    ts: new Date().toISOString()
+  // custom request to fetch all the documents from
+  // a known partition partition (or the first 10)
+  const r = { 
+    method: 'post',
+    path: encodeURIComponent('crm') + '/_partition/' + encodeURIComponent(args.partition) + '/_find',
+    body: {
+      selector: {
+        type: args.filter
+      },
+      limit: 20
+    }
   }
 
   // make the API call
   try {
-    const info = await db.insert(obj)
+    const info = await cloudant.request(r)
     return {
       body: info,
       statusCode: 200,

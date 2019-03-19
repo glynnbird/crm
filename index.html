@@ -81,21 +81,39 @@
     <div class="container-fluid" v-if="mode == 'company'">
       <div class="row">
         <div class="col">
-          <table class="table" v-if="company"> 
-            <tr><th>id</th><td>{{ companyPartition }}</td></tr>
-            <tr><th>Name</th><td>{{ company.name }} </td></tr>
-            <tr><th>Address</th><td>{{ companyAddress}}</td></th></tr>
-          </table>
-          <div v-if="company">
-            {{ company.description }}
+          <div class="alert alert-info alert-company">
+            <table class="table" v-if="company"> 
+                <tr><th>id</th><td>{{ companyPartition }}</td></tr>
+                <tr><th>Name</th><td>{{ company.name }} </td></tr>
+                <tr><th>Address</th><td>{{ companyAddress}}</td></th></tr>
+              </table>
+              <div v-if="company">
+                {{ company.description }}
+              </div>
           </div>
         </div>
         <div class="col-9">
           <!-- toolbar with options for adding notes, contacts or links -->
-          <div class="btn-group add-toolbar" role="group" aria-label="Add object toolbar">
-            <button v-on:click="currentForm='add-note-form'" type="button" class="btn btn-secondary"><i class="fas fa-sticky-note"></i></button>
-            <button v-on:click="currentForm='add-link-form'" type="button" class="btn btn-secondary"><i class="fas fa-link"></i></button>
-            <button v-on:click="currentForm='add-contact-form'" type="button" class="btn btn-secondary"><i class="fas fa-user-circle"></i></button>
+          <div class="btn-toolbar" role="toolbar" aria-label="Add object toolbar">
+            <div class="btn-group  mr-2" role="group" aria-label="All">
+              <button v-on:click="loadHistory()" type="button" class="btn btn-secondary"><i class="fas fa-globe"></i></button>
+            </div>
+
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+              <button v-on:click="chooseFilter('note')" type="button" class="btn btn-secondary"><i class="fas fa-sticky-note"></i></button>
+              <button v-on:click="currentForm='add-note-form'" type="button" class="btn btn-secondary"><i class="fas fa-plus-square"></i></button>
+            </div>
+
+            <div class="btn-group mr-2" role="group" aria-label="Second group">
+              <button v-on:click="chooseFilter('link')" type="button" class="btn btn-secondary"><i class="fas fa-link"></i></button>
+              <button v-on:click="currentForm='add-link-form'" type="button" class="btn btn-secondary"><i class="fas fa-plus-square"></i></i></button>
+            </div>
+
+            <div class="btn-group mr-2" role="group" aria-label="Third group">
+              <button v-on:click="chooseFilter('contact')" type="button" class="btn btn-secondary"><i class="fas fa-user-circle"></i></button>
+              <button v-on:click="currentForm='add-contact-form'" type="button" class="btn btn-secondary"><i class="fas fa-plus-square"></i></button>
+            </div>
+  
           </div>
           <!-- this is where the current add* form goes -->
           <component v-bind:is="currentTabComponent" class="tab"></component>

@@ -20,6 +20,12 @@ const CRMAPIfetch = async (partition) => {
   return obj
 }
 
+const CRMAPIfetchfilter = async (partition, filter) => {
+  const data = await fetch(APIURL + '/fetchfilter?partition=' + encodeURIComponent(partition) + '&filter=' + encodeURIComponent(filter))
+  const obj = await data.json()
+  return obj
+}
+
 const CRMAPIaddnote= async (partition, title, description) => {
   const params = {
     partition: partition,
@@ -108,7 +114,7 @@ Vue.component('company-contact', {
               <div class="card contact-card">
                 <div class="card-header">
                   <i class="fas fa-user-circle"></i>
-                  {{ name }} {{ email}}
+                  {{ name }} <a :href="email"><i class="fas fa-envelope"></i></a>
                 </div>
               </div> 
             `
@@ -116,12 +122,12 @@ Vue.component('company-contact', {
 
 // a link 
 Vue.component('company-link', {
-  props: ['name','url','ts'],
+  props: ['title','url'],
   template: `
               <div class="card link-card">
                 <div class="card-header">
                   <i class="fas fa-link"></i>
-                  {{ name }} {{ url }}
+                  {{ title }} <a :href="url" target="_new"><i class="fas fa-external-link-alt"></i></a>
                 </div>
               </div> 
             `
@@ -157,9 +163,8 @@ Vue.component('company-history', {
                v-bind:ts="item.ts">
              </company-note>
              <company-link v-else-if="item.type === 'link'"
-               v-bind:name="item.name"
-               v-bind:url="item.url"
-               v-bind:ts="item.ts">
+               v-bind:title="item.title"
+               v-bind:url="item.url">
              </company-link>
              </span>
             `
@@ -314,7 +319,7 @@ Vue.component('add-link-form', {
                   <h2>Add Link</h2>
                   <div class="form-group">
                     <label for="add-link-title">Title</label>
-                    <input v-model="name" type="text" class="form-control" id="add-link-title" placeholder="Enter link title">
+                    <input v-model="title" type="text" class="form-control" id="add-link-title" placeholder="Enter link title">
                   </div>
                   <div class="form-group">
                     <label for="add-link-url">URL</label>
@@ -409,11 +414,17 @@ var app = new Vue({
     currentForm: ''
   },
   methods: {
-    chooseCompany: async function(event, partition) {
-      event.preventDefault();
-      this.mode = 'searching'
-      this.companyHistory = []
-      this.companyPartition = partition
+    chooseFilter: async function(filter) {
+      const data = await CRMAPIfetchfilter(this.companyPartition, filter)
+      for(var i in data.docs) {
+        if (data.docs[i].type === 'note') {
+          data.docs[i].descriptionHTML = markdownConverter.makeHtml(data.docs[i].description)
+        }
+      }
+      this.companyHistory = data.docs
+      this.mode = 'company'
+    },
+    loadHistory: async function() {
       const data = await CRMAPIfetch(this.companyPartition)
       this.company = data.rows[0].doc
       this.companyHistory = []
@@ -424,6 +435,13 @@ var app = new Vue({
         }
       }
       this.mode = 'company'
+    },
+    chooseCompany: async function(event, partition) {
+      event.preventDefault();
+      this.mode = 'searching'
+      this.companyHistory = []
+      this.companyPartition = partition
+      await this.loadHistory()
     },
     searchSubmit: async function(event) {
       event.preventDefault();
