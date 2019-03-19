@@ -109,12 +109,15 @@ Vue.component('company-list-item', {
 
 // a contact 
 Vue.component('company-contact', {
-  props: ['name','email'],
+  props: ['name','email', 'ts'],
   template: `
               <div class="card contact-card">
                 <div class="card-header">
                   <i class="fas fa-user-circle"></i>
                   {{ name }} <a :href="email"><i class="fas fa-envelope"></i></a>
+                </div>
+                <div class="card-body">
+                  {{ ts }}
                 </div>
               </div> 
             `
@@ -122,12 +125,15 @@ Vue.component('company-contact', {
 
 // a link 
 Vue.component('company-link', {
-  props: ['title','url'],
+  props: ['title','url','ts'],
   template: `
               <div class="card link-card">
                 <div class="card-header">
                   <i class="fas fa-link"></i>
                   {{ title }} <a :href="url" target="_new"><i class="fas fa-external-link-alt"></i></a>
+                </div>
+                <div class="card-body">
+                  {{ ts }}
                 </div>
               </div> 
             `
@@ -144,6 +150,7 @@ Vue.component('company-note', {
                 </div>
                 <div class="card-body">
                   <p class="card-text" v-html="description"></p>
+                  <p>{{ ts }}</p>
                 </div>
               </div> 
             `
@@ -155,7 +162,8 @@ Vue.component('company-history', {
   },
   template: `<span> {{item.id}}<company-contact v-if="item.type === 'contact'"
                v-bind:name="item.name"
-               v-bind:email="item.email">
+               v-bind:email="item.email"
+               v-bind:ts="item.ts">
              </company-contact>
              <company-note v-else-if="item.type === 'note'"
                v-bind:title="item.title"
@@ -164,7 +172,8 @@ Vue.component('company-history', {
              </company-note>
              <company-link v-else-if="item.type === 'link'"
                v-bind:title="item.title"
-               v-bind:url="item.url">
+               v-bind:url="item.url"
+               v-bind:ts="item.ts">
              </company-link>
              </span>
             `
@@ -411,10 +420,12 @@ var app = new Vue({
     mode: 'welcome',
     companyPartition: null,
     companyHistory: [],
-    currentForm: ''
+    currentForm: '',
+    lastFilter: ''
   },
   methods: {
     chooseFilter: async function(filter) {
+      this.lastFilter = filter
       const data = await CRMAPIfetchfilter(this.companyPartition, filter)
       for(var i in data.docs) {
         if (data.docs[i].type === 'note') {
@@ -425,6 +436,7 @@ var app = new Vue({
       this.mode = 'company'
     },
     loadHistory: async function() {
+      this.lastFilter = ''
       const data = await CRMAPIfetch(this.companyPartition)
       this.company = data.rows[0].doc
       this.companyHistory = []

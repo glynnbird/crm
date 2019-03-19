@@ -33,9 +33,8 @@
   background: linear-gradient(135deg, #ffff88 81%,#ffff88 82%,#ffff88 82%,#ffffc6 100%); /* W3C */
 }
 
-.btn-toolbar {
-  margin-top: 10px;
-  margin-bottom: 10px;
+.btn-group {
+  margin-top: 10px
 }
 
 .alert-company {
