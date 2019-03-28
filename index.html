@@ -20,7 +20,10 @@
 </head>
 
 <body>
+  <!-- Vue.js controls this div-->
   <div id="app">
+
+    <!-- top navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <a class="navbar-brand" href="#">CRM</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -31,9 +34,12 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
+            <!-- add new business button -->
             <a class="btn btn-outline-secondary" href="#" v-on:click="mode = 'addcompany'">New</a>
           </li>
         </ul>
+
+        <!-- search for a business by name form -->
         <form class="form-inline my-2 my-lg-0" v-on:submit="searchSubmit">
           <input v-model="searchTerm" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -92,7 +98,7 @@
         </div>
         <div class="col-9">
 
-          <!-- tabs -->
+          <!-- tabs for filtering by note/link/contact or all data -->
           <ul class="nav nav-tabs">
             <li class="nav-item">
               <a class="nav-link" :class="{active: lastFilter=='' }" href="#" v-on:click="loadHistory()">All</a>
@@ -101,7 +107,7 @@
               <a class="nav-link" :class="{active: lastFilter=='note' }" href="#" v-on:click="chooseFilter('note')">Notes</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" :class="{active: lastFilter=='link' }" href="#" v-on:click="chooseFilter('link')">Contacts</a>
+              <a class="nav-link" :class="{active: lastFilter=='link' }" href="#" v-on:click="chooseFilter('link')">Links</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" :class="{active: lastFilter=='contact' }" href="#" v-on:click="chooseFilter('contact')">Contacts</a>
@@ -125,19 +131,23 @@
     </div>
   </div>
 
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
     crossorigin="anonymous"></script>
+  <!-- popper -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
     integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
     crossorigin="anonymous"></script>
+  <!-- bootstrap -->
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
     integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
     crossorigin="anonymous"></script>
+  <!-- vue.js -->
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <!-- showdown - markdown parser -->
   <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.0/dist/showdown.min.js"></script>
+  <!-- our vue.js app -->
   <script src="assets/js/crm.js"></script>
 </body>
 
