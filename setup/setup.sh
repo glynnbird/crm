@@ -23,15 +23,3 @@ curl -X POST -H "$CT" -d"$I" "$COUCH_URL/crm/_index"
 # create some data
 cat template.json | datamaker -f json -i 1000 | couchimport --db crm --type jsonl
 cat template2.json | datamaker -i 1000 | couchimport --db crm --type jsonl
-
-# generate some data
-
-# {
-#   "selector": {
-#       "$text": "yamato"
-#    },
-#    "use_index": [
-#       "global",
-#       "byName"
-#    ]
-# }
